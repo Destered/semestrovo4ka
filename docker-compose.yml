@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  app:
+    container_name: app
+    image: semestrovo4ka-1
+    build: ./
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db_sem3
+    ports:
+      - "11488:8080"
+    depends_on:
+      - dbpostgresql
+  dbpostgresql:
+      container_name: db
+      restart: always
+      image: postgres
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_PASSWORD=123zqwex
+        - POSTGRES_USER=SemesterDatabase
+        - POSTGRES_DB=db_sem3
+
