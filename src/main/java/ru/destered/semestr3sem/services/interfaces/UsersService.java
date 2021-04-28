@@ -7,6 +7,8 @@ import ru.destered.semestr3sem.dto.forms.SignUpForm;
 public interface UsersService {
     Page<UserDto> getUsers(int number);
 
+    UserDto getUser(Long id);
+
     UserDto createUser(SignUpForm form);
 
     UserDto updateUser(Long id, SignUpForm form);

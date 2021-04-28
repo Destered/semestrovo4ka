@@ -14,6 +14,8 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.destered.semestr3sem.security.filter.AuthorisationFilter;
+import ru.destered.semestr3sem.security.token.TokenAuthentication;
+import ru.destered.semestr3sem.security.token.TokenAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -27,9 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
 
+    private final TokenAuthenticationFilter filter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.sessionManagement().disable();
         http.authorizeRequests()
                 .antMatchers("/signUp").permitAll()  // permitAll(), authentacited(), hasAuthority("ADMIN")
                 .antMatchers("/signIn").permitAll()
@@ -39,22 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/upload/**").authenticated()
                 .antMatchers("/download/**").authenticated()
                 .antMatchers("/index").permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/signIn")
-                .usernameParameter("email")
-                .defaultSuccessUrl("/profile")
-                .failureUrl("/error")
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .and()
-                .rememberMe()
-                .rememberMeParameter("justRememberMePls").tokenRepository(persistentTokenRepository()).key("remkey");
+                .antMatchers("/users/**").authenticated()
+                .antMatchers("/posts/**").authenticated();
 
-        http.addFilterAfter(new AuthorisationFilter(), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new AuthorisationFilter(), BasicAuthenticationFilter.class)
+        .addFilterBefore(filter, BasicAuthenticationFilter.class);
     }
 
     @Override

@@ -1,10 +1,7 @@
 package ru.destered.semestr3sem.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.destered.semestr3sem.dto.forms.SignUpForm;
 
 import javax.persistence.*;
@@ -18,7 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Setter
+@Getter
+@ToString
 public class User {
     @Id
     @NotNull

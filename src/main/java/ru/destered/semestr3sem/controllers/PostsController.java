@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.destered.semestr3sem.dto.forms.PostForm;
 import ru.destered.semestr3sem.models.Post;
 import ru.destered.semestr3sem.models.User;
+import ru.destered.semestr3sem.security.details.UserDetailsImpl;
 import ru.destered.semestr3sem.services.interfaces.PostsService;
 
 import java.util.Optional;
@@ -29,8 +31,8 @@ public class PostsController {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<Post> createPosts(@RequestBody PostForm form) {
-        return new ResponseEntity<>(service.createPost(form, User.builder().build()), HttpStatus.OK);
+    public ResponseEntity<Post> createPosts(@RequestBody PostForm form, @AuthenticationPrincipal UserDetailsImpl user) {
+        return new ResponseEntity<>(service.createPost(form, user.getUser()), HttpStatus.OK);
     }
 
     @PutMapping("/posts/{id}")

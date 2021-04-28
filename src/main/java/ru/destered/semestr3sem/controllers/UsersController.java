@@ -16,9 +16,14 @@ import java.util.Optional;
 public class UsersController {
     private final UsersService viewUserService;
 
-    @GetMapping(value = {"/users", "/users/{id}"})
+    @GetMapping("/users")
     public Page<UserDto> getUsers(@PathVariable Optional<String> id) {
         return viewUserService.getUsers(Integer.parseInt(id.orElse("0")));
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
+        return new ResponseEntity<>(viewUserService.getUser(id), HttpStatus.OK);
     }
 
     @PostMapping("/users")

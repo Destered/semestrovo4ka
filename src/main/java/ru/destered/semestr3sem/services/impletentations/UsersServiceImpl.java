@@ -1,9 +1,11 @@
 package ru.destered.semestr3sem.services.impletentations;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.destered.semestr3sem.dto.UserDto;
@@ -15,6 +17,7 @@ import ru.destered.semestr3sem.repositories.UsersRepository;
 import ru.destered.semestr3sem.services.interfaces.UsersService;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +29,17 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Page<UserDto> getUsers(int number) {
-        Pageable pageable = PageRequest.of(number, 2);
+        Pageable pageable = PageRequest.of(number, 5);
         Page<User> page = userRepository.findAll(pageable);
 
         return page.map(dtoMapper::userToDto);
+    }
+
+    @SneakyThrows
+    @Override
+    public UserDto getUser (Long id) {
+        return dtoMapper.userToDto(userRepository.findById(id)
+                .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found")));
     }
 
     @Override

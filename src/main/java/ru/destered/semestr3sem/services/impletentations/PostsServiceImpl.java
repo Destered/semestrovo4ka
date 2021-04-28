@@ -2,6 +2,8 @@ package ru.destered.semestr3sem.services.impletentations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.destered.semestr3sem.dto.forms.PostForm;
 import ru.destered.semestr3sem.dto.mapper.FormPostMapper;
@@ -26,7 +28,8 @@ public class PostsServiceImpl implements PostsService {
 
     @Override
     public Page<Post> getAllPosts(Integer number) {
-        return null;
+        Pageable pageable = PageRequest.of(number, 3);
+        return repository.findAll(pageable);
     }
 
     @Override

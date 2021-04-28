@@ -1,16 +1,15 @@
 package ru.destered.semestr3sem.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Setter
+@Getter
+@ToString
 @Builder
 public class JwtToken {
     @Id

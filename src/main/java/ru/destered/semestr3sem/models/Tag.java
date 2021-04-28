@@ -1,16 +1,16 @@
 package ru.destered.semestr3sem.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Setter
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,6 +23,7 @@ public class Tag {
 
     private String description;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "tagsList")
     private Set<Post> posts = new HashSet<>();
 }
