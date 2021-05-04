@@ -19,17 +19,21 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        List<Cookie> list = Arrays.stream(request.getCookies()).filter(x->x.getName().equals("token")).collect(Collectors.toList());
+        Cookie[] cookies = request.getCookies();
 
-        String token = null;
+        if (cookies != null) {
+            List<Cookie> list = Arrays.stream(cookies).filter(x -> x.getName().equals("token")).collect(Collectors.toList());
 
-        if(!list.isEmpty()) {
-            token = list.get(0).getValue();
-        }
+            String token = null;
 
-        if (token != null) {
-            TokenAuthentication authentication = new TokenAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (!list.isEmpty()) {
+                token = list.get(0).getValue();
+            }
+
+            if (token != null) {
+                TokenAuthentication authentication = new TokenAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
         filterChain.doFilter(request, response);

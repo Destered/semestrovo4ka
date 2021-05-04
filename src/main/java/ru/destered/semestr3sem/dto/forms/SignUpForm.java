@@ -15,4 +15,6 @@ import javax.validation.constraints.NotBlank;
 public class SignUpForm extends UserAuthForm{
     @NotBlank(message = "username is mandatory")
     private String username;
+    @NotBlank(message = "phone is mandatory")
+    private String phone;
 }

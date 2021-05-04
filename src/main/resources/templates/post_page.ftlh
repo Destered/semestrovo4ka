@@ -1,13 +1,13 @@
-
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Site site site</title>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Post</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
 
     <!-- Bootstrap core CSS -->
@@ -60,8 +60,9 @@
 
     </script>
 
+
 </head>
-<body class="text-center">
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/home">IMBASite</a>
@@ -82,16 +83,66 @@
             </li>
             <#if isLogged?has_content>
                 <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
             </#if>
         </ul>
-        </div>
+    </div>
 </nav>
+    <div id="wrapper">
+        <p>{{ result.name }}</p>
+        <p>{{ result.text }}</p>
+        <p>{{ result.creator.username }}</p>
+        <a v-bind:href="'/editPost?id=' + result.id">edit</a>
+    </div>
 
-<div class="search_box">
-    <form autocomplete="off" id="searchForm">
-        <input type="text" name="name" id="name" placeholder="Введите никнейм пользователя">
-        <button type="button" onclick="findUser()"> Поиск по пользователям</button>
-    </form>
-    <div id="search_box-result"></div></div>
+<script>
+    let vm = new Vue({
+        el: "#wrapper",
+        data: {result: []},
+        mounted() {
+            axios.get('/posts/' + getAllUrlParams().id).then(
+                res => {
+                    this.result = res.data;
+                }
+            );
+        }
+    });
+
+    function getAllUrlParams(url) {
+        var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+        var obj = {};
+        if (queryString) {
+            queryString = queryString.split('#')[0];
+            var arr = queryString.split('&');
+            for (var i=0; i<arr.length; i++) {
+                var a = arr[i].split('=');
+                var paramNum = undefined;
+                var paramName = a[0].replace(/\[\d*\]/, function(v) {
+                    paramNum = v.slice(1,-1);
+                    return '';
+                });
+                var paramValue = typeof(a[1])==='undefined' ? true : a[1];
+                paramName = paramName.toLowerCase();
+                paramValue = paramValue.toLowerCase();
+                if (obj[paramName]) {
+                    if (typeof obj[paramName] === 'string') {
+                    }
+                    if (typeof paramNum === 'undefined') {
+                        obj[paramName].push(paramValue);
+                    }
+                else {
+                        obj[paramName][paramNum] = paramValue;
+                    }
+                }
+            else {
+                    obj[paramName] = paramValue;
+                }
+            }
+        }
+        return obj;
+    }
+
+</script>
+</body>
+</html>

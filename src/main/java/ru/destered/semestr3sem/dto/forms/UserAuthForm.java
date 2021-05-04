@@ -18,4 +18,5 @@ public class UserAuthForm {
     private String email;
     @NotBlank(message = "password is mandatory")
     private String password;
+
 }

@@ -1,12 +1,14 @@
-
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Site site site</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit profile page</title>
+
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
 
@@ -61,7 +63,7 @@
     </script>
 
 </head>
-<body class="text-center">
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/home">IMBASite</a>
@@ -82,16 +84,32 @@
             </li>
             <#if isLogged?has_content>
                 <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
             </#if>
         </ul>
-        </div>
+    </div>
 </nav>
 
-<div class="search_box">
-    <form autocomplete="off" id="searchForm">
-        <input type="text" name="name" id="name" placeholder="Введите никнейм пользователя">
-        <button type="button" onclick="findUser()"> Поиск по пользователям</button>
+
+    <form method="post" action="/editProfileHandler">
+        <input type="text" name="username" v-bind:value="info.username">
+        <input type="text" name="phone" v-bind:value="info.phone">
+        <input type="submit">
     </form>
-    <div id="search_box-result"></div></div>
+
+    <script>
+        let vm = new Vue({
+            el: "#info",
+            data: {info:[]},
+            mounted() {
+                axios.get('/getProfile').then(
+                    res => {
+                        this.info = res.data;
+                    }
+                );
+            }
+        });
+    </script>
+</body>
+</html>

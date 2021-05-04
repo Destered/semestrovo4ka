@@ -36,10 +36,12 @@ public class LoginServiceImpl implements LoginService {
         if (passwordEncoder.matches(signInForm.getPassword(), user.getPassword())) {
             String tokenValue = JWT.create()
                     .withSubject(user.getId().toString())
+                    .withClaim("username", user.getUsername())
                     .withClaim("email", user.getEmail())
                     .withClaim("role", user.getRole().toString())
                     .withClaim("state", user.getState().toString())
                     .withClaim("code", user.getCurrentConfirmationCode())
+                    .withClaim("phone",user.getPhone())
                     .sign(Algorithm.HMAC256(key));
             JwtToken token = JwtToken.builder()
                     .user(user)

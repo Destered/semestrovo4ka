@@ -1,16 +1,15 @@
 package ru.destered.semestr3sem.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class TokenDto {
-    private String token;
+@Data
+public class SmsInfo {
+    String[] id;
 }

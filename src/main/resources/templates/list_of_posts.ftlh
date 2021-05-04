@@ -1,13 +1,13 @@
-
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Site site site</title>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lenta</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
 
     <!-- Bootstrap core CSS -->
@@ -60,8 +60,9 @@
 
     </script>
 
+
 </head>
-<body class="text-center">
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/home">IMBASite</a>
@@ -82,16 +83,49 @@
             </li>
             <#if isLogged?has_content>
                 <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
             </#if>
         </ul>
-        </div>
+    </div>
 </nav>
+    <hr>
+    <div id="wrapper">
+        <div class="post" v-for="post in result.content" >
+            <p>{{ post.name }}</p>
+            <p>{{ post.text }}</p>
+            <p>{{ post.creator.username }}</p>
+            <a v-bind:href="'/post?id=' + post.id">more</a>
+            <hr>
+        </div>
+        <button v-on:click="navigate" v-bind:name="result.number-1" v-bind:hidden="result.first" id="prev">prev</button>
+        <button v-on:click="navigate" v-bind:name="result.number+1" v-bind:hidden="result.last" id="next">next</button>
+    </div>
 
-<div class="search_box">
-    <form autocomplete="off" id="searchForm">
-        <input type="text" name="name" id="name" placeholder="Введите никнейм пользователя">
-        <button type="button" onclick="findUser()"> Поиск по пользователям</button>
-    </form>
-    <div id="search_box-result"></div></div>
+    <script>
+        let vm = new Vue({
+            el: "#wrapper",
+            data: {result: []},
+            mounted() {
+                axios.get('/posts').then(
+                    res => {
+                        this.result = res.data;
+                    }
+                );
+                document.getElementById("prev").hidden = true;
+            },
+            methods:{
+                navigate:
+                    function(event) {
+                        let number = event.target.name;
+                        axios.get('/posts?page=' + number).then(
+                            res => {
+                                this.result = res.data;
+                            }
+                        );
+                    }
+            }
+        });
+    </script>
+</body>
+</html>

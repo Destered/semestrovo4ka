@@ -16,7 +16,7 @@ public class JwtToken {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
+    @Column(columnDefinition="text", name = "value")
     private String value;
 
     @ManyToOne

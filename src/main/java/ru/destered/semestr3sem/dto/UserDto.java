@@ -19,6 +19,7 @@ public class UserDto {
     private String email;
     private String state;
     private String role;
+    private String phone;
 
     public static UserDto fromUser(User user) {
         return UserDto.builder()
@@ -26,6 +27,7 @@ public class UserDto {
                 .id(user.getId())
                 .code(user.getCurrentConfirmationCode())
                 .email(user.getEmail())
+                .phone(user.getPhone())
                 .build();
     }
 

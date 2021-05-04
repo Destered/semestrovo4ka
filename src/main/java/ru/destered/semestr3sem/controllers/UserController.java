@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/profile")
+//@RequestMapping("/profile")
 @RequiredArgsConstructor
 public class UserController {
 

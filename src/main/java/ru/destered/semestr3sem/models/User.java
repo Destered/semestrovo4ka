@@ -37,6 +37,8 @@ public class User {
     @NotNull
     private String username;
 
+    private String phone = "";
+
     @Enumerated(value = EnumType.STRING)
     private State state;
 
@@ -71,6 +73,8 @@ public class User {
     private List<Cookie> cookieList;
 
     private boolean proved;
+
+    private boolean phoneProved;
 
     private String currentConfirmationCode;
 
