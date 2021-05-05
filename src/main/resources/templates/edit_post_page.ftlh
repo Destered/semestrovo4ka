@@ -62,6 +62,12 @@
 
     </script>
 
+    <style>
+       .margin{
+            margin-inline: 30%;
+        }
+    </style>
+
 
 </head>
 <body>
@@ -92,13 +98,22 @@
     </div>
 </nav>
 
+
 <div id="wrapper">
     <form method="post" v-bind:action="'/posts/' + result.id">
-        <input type="text" name="name" v-bind:value="result.name">
-        <textarea name="text" v-bind:value="result.text"></textarea>
-        <input type="submit">
+        <div class="form-group margin" id="inputPostTitle">
+            <label for="inputPostTitle">Post Title</label>
+            <input type="text" class="form-control" name="name">
+
+        </div>
+        <div class="form-group margin">
+            <label for="inputPostInfo ">Post Info</label>
+            <textarea name = "text" type="text" class="form-control" id="inputPostInfo"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary margin">Обновить</button>
     </form>
 </div>
+
 <script>
     let vm = new Vue({
         el: "#wrapper",

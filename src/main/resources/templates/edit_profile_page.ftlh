@@ -61,6 +61,11 @@
         }
 
     </script>
+    <style>
+        #margin{
+            margin-inline: 30%;
+        }
+    </style>
 
 </head>
 <body>
@@ -91,12 +96,20 @@
     </div>
 </nav>
 
+<form method="post" action="/editProfileHandler">
+    <div class="form-group" id="margin">
+        <label for="inputUsername">Username</label>
+        <input type="text" name="username" v-bind:value="info.username" class="form-control" id="inputUsername" aria-describedby="usernameHelper">
+        <small id="usernameHelp" v-bind:value="info.phone" class="form-text text-muted">Enter you new username.</small>
+    </div>
+    <div class="form-group" id="margin">
+        <label for="inputPhoneNumber">Phone Number</label>
+        <input type="text" name="phone" class="form-control" id="inputPhoneNumber" aria-describedby="phoneHelper">
+        <small id="phoneHelp" class="form-text text-muted">Enter new phone (8XXXXXXXXXX).</small>
+    </div>
+    <button id="margin" type="submit" class="btn btn-primary">Обновить</button>
+</form>
 
-    <form method="post" action="/editProfileHandler">
-        <input type="text" name="username" v-bind:value="info.username">
-        <input type="text" name="phone" v-bind:value="info.phone">
-        <input type="submit">
-    </form>
 
     <script>
         let vm = new Vue({

@@ -26,6 +26,7 @@ public class SignUpServiceImpl implements SignUpService {
         user.setCurrentConfirmationCode(UUID.randomUUID().toString());
         user.setPassword(encoder.encode(form.getPassword()));
         user.setProved(false);
+        user.setPhone("");
         usersRepository.save(user);
         return UserDto.fromUser(user);
     }

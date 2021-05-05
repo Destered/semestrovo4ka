@@ -60,6 +60,12 @@
 
     </script>
 
+    <style>
+        .margin{
+            margin-inline: 30%;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -90,13 +96,17 @@
 </nav>
 
 
-    <form method="post" action="/posts">
-        <label>Name</label><br>
-        <input type="text" name="name">
-        <br>
-        <label>Text</label><br>
-        <textarea name="text"></textarea><br>
-        <input type="submit">
-    </form>
+<form method="post" action="/posts">
+    <div class="form-group margin" id="inputPostTitle">
+        <label for="inputPostTitle">Post Title</label>
+        <input type="text" class="form-control" name="name" >
+    </div>
+    <div class="form-group margin">
+        <label for="inputPostInfo ">Post Info</label>
+        <textarea name = "text" type="text" class="form-control" id="inputPostInfo"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary margin">Обновить</button>
+</form>
+
 </body>
 </html>
