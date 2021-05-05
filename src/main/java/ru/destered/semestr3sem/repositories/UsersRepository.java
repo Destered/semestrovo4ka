@@ -18,6 +18,8 @@ public interface UsersRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByCurrentConfirmationCode(String code);
 
+    Optional<User> findByUsername(String username);
+
     @Query("select u from User u where lower(u.username) like lower(concat('%', :nameToFind,'%')) ")
     Page<User> findAllByUsernameIgnoreCase(@Param("nameToFind") String username,
                                            Pageable pageable);

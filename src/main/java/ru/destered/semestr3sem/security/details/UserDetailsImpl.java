@@ -17,6 +17,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public User getUser() {return this.user;}
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());

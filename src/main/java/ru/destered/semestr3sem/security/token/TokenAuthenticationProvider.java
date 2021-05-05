@@ -8,12 +8,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import ru.destered.semestr3sem.security.details.UserDetailsServiceImpl;
 
 @Component
 @RequiredArgsConstructor
 public class TokenAuthenticationProvider implements AuthenticationProvider {
     @Qualifier("customUserDetailsService")
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

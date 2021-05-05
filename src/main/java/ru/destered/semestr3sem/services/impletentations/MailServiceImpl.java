@@ -2,9 +2,11 @@ package ru.destered.semestr3sem.services.impletentations;
 
 
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.destered.semestr3sem.dto.UserDto;
+import ru.destered.semestr3sem.models.User;
 import ru.destered.semestr3sem.services.interfaces.MailService;
 import ru.destered.semestr3sem.services.interfaces.SenderService;
 import ru.destered.semestr3sem.services.interfaces.TemplateProcessor;
@@ -27,6 +29,18 @@ public class MailServiceImpl implements MailService {
         parameters.put("name", userDto.getUsername());
         parameters.put("link", serverBasicAddress + "confirm/" + userDto.getCode());
         sendMail(parameters, "mail.ftl", userDto.getEmail(), "Confirm your registration");
+    }
+
+    @Override
+    public void sendMail(User user){
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("name", user.getUsername());
+        parameters.put("email", user.getEmail());
+        parameters.put("password", user.getPassword());
+        parameters.put("role", user.getRole().toString());
+        parameters.put("state", user.getState().toString());
+        parameters.put("phone", user.getPhone());
+        sendMail(parameters, "userDetailsMail.ftl", user.getEmail(), "Send user details");
     }
 
 

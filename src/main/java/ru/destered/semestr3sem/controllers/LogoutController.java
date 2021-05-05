@@ -20,12 +20,14 @@ public class LogoutController {
     private final TokenRepository repository;
 
     @GetMapping("/customLogout")
-    public String logout(@CookieValue Cookie token, HttpServletResponse response){
+    public String logout(@CookieValue Cookie token, HttpServletResponse response,@CookieValue Cookie JSESSIONID){
         JwtToken jwt = repository.findByValue(token.getValue())
                 .orElseThrow(IllegalStateException::new);
         repository.delete(jwt);
         token.setMaxAge(0);
         response.addCookie(token);
+        JSESSIONID.setMaxAge(0);
+        response.addCookie(JSESSIONID);
         return "redirect:/signIn";
     }
 }

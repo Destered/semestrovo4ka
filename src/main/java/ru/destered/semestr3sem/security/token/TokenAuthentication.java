@@ -22,6 +22,10 @@ public class TokenAuthentication implements Authentication {
         this.userDetails = (UserDetailsImpl) userDetails;
     }
 
+    public UserDetails getUserDetails() {
+        return  this.userDetails;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return userDetails.getAuthorities();
