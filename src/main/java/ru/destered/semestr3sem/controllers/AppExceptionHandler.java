@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
+import ru.destered.semestr3sem.exceptions.EmailNotConfirmException;
 import ru.destered.semestr3sem.exceptions.LoginProcessErrorException;
 import ru.destered.semestr3sem.exceptions.StorageFileNotFoundException;
 
@@ -30,6 +32,11 @@ public class AppExceptionHandler {
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(EmailNotConfirmException.class)
+    public String handleEmailNotProved(EmailNotConfirmException e){
+        return "redirect:/logout";
     }
 
     @GetMapping("/error")

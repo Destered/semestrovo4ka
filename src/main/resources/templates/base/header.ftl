@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 
@@ -11,7 +10,8 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
 
     <!-- Bootstrap core CSS -->
-    <link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
 
     <script type="application/javascript">
@@ -47,11 +47,12 @@
                 }
             });
         }
-        function getFormData($form){
+
+        function getFormData($form) {
             var unindexed_array = $form.serializeArray();
             var indexed_array = {};
 
-            $.map(unindexed_array, function(n, i){
+            $.map(unindexed_array, function (n, i) {
                 indexed_array[n['name']] = n['value'];
             });
 
@@ -65,7 +66,8 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/home">IMBASite</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -80,13 +82,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="/allPosts">List of posts</a>
             </li>
-            <#if isLogged?has_content>
-                <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="/logout">Logout</a>
-                </li>
-            </#if>
+            </li>
         </ul>
-        </div>
+    </div>
 </nav>
 
 <div class="search_box">
@@ -94,4 +94,5 @@
         <input type="text" name="name" id="name" placeholder="Введите никнейм пользователя">
         <button type="button" onclick="findUser()"> Поиск по пользователям</button>
     </form>
-    <div id="search_box-result"></div></div>
+    <div id="search_box-result"></div>
+</div>

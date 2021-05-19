@@ -1,4 +1,4 @@
-package ru.destered.semestr3sem.services.impletentations;
+package ru.destered.semestr3sem.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +7,6 @@ import ru.destered.semestr3sem.models.User;
 import ru.destered.semestr3sem.repositories.UsersRepository;
 import ru.destered.semestr3sem.security.details.UserDetailsImpl;
 import ru.destered.semestr3sem.services.interfaces.UserDetailsAdditionalService;
-import ru.destered.semestr3sem.services.interfaces.UsersService;
 
 import java.util.Optional;
 

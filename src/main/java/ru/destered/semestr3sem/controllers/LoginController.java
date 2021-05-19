@@ -1,6 +1,8 @@
 package ru.destered.semestr3sem.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,10 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name="Login controller", description="Login controller API")
 public class LoginController {
     private final LoginService login;
 
     @PreAuthorize("permitAll()")
+    @Operation(
+            summary = "login",
+            description = "login user"
+    )
     @PostMapping("/login")
     public RedirectView login(UserAuthForm form, HttpServletResponse response, @CookieValue(required = false) Cookie token) {
        if (token != null) token.setMaxAge(-1);

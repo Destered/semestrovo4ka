@@ -1,5 +1,7 @@
 package ru.destered.semestr3sem.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -18,9 +20,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/search")
 @RequiredArgsConstructor
+@Tag(name="Search controller", description="Search controller API")
 public class SearchController {
     private final UserSearchService userSearchService;
 
+
+    @Operation(
+            summary = "search user",
+            description = "search user by id"
+    )
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

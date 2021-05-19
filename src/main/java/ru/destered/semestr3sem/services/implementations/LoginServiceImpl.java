@@ -1,4 +1,4 @@
-package ru.destered.semestr3sem.services.impletentations;
+package ru.destered.semestr3sem.services.implementations;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.destered.semestr3sem.dto.TokenDto;
 import ru.destered.semestr3sem.dto.forms.UserAuthForm;
 import ru.destered.semestr3sem.models.JwtToken;
@@ -28,6 +29,7 @@ public class LoginServiceImpl implements LoginService {
     private String key;
 
     @SneakyThrows
+    @Transactional
     @Override
     public TokenDto login(UserAuthForm signInForm) {
         User user = userRepository.findByEmail(signInForm.getEmail()).orElseThrow
@@ -47,6 +49,9 @@ public class LoginServiceImpl implements LoginService {
                     .user(user)
                     .value(tokenValue)
                     .build();
+            if(tokenRepository.existsByUser_Id(user.getId())){
+                tokenRepository.deleteByUser_Id(user.getId());
+            }
             tokenRepository.save(token);
             return TokenDto.builder().token(tokenValue).build();
         } else {

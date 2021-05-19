@@ -1,5 +1,7 @@
 package ru.destered.semestr3sem.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +24,14 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name="Post controller", description="Post controller API")
 public class PostsController {
     private final PostsService service;
 
+    @Operation(
+            summary = "get single post",
+            description = "get single post from id"
+    )
     @PreAuthorize("permitAll()")
     @GetMapping("/posts/{id}")
     public ResponseEntity<Post> getPosts(@PathVariable Optional<Long> id) {
@@ -32,12 +39,20 @@ public class PostsController {
                 .orElseThrow(InternalError::new)), HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "get posts",
+            description = "get all posts"
+    )
     @PreAuthorize("permitAll()")
     @GetMapping("/posts")
     public ResponseEntity<Page<Post>> getAllPosts(@PageableDefault(size = 5) Pageable pageable) {
         return new ResponseEntity<>(service.getAllPosts(pageable), HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "crete post",
+            description = "create post"
+    )
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/posts")
     public RedirectView createPosts(PostForm form, @CookieValue Cookie token) {
@@ -45,6 +60,10 @@ public class PostsController {
         return new RedirectView("/allPosts");
     }
 
+    @Operation(
+            summary = "update post",
+            description = "update post"
+    )
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/posts/{id}")
     public RedirectView updatePosts(@PathVariable Long id, PostForm form, @CookieValue Cookie token) {
@@ -52,6 +71,10 @@ public class PostsController {
         return new RedirectView("/allPosts");
     }
 
+    @Operation(
+            summary = "delete post",
+            description = "allow you delete post"
+    )
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/posts/{id}")
     public ResponseEntity<?> deletePosts(@PathVariable Long id) {

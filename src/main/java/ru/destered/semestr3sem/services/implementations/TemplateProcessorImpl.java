@@ -1,4 +1,4 @@
-package ru.destered.semestr3sem.services.impletentations;
+package ru.destered.semestr3sem.services.implementations;
 
 
 import org.springframework.beans.factory.annotation.Qualifier;

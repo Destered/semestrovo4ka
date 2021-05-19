@@ -1,4 +1,5 @@
 <#include "./base/standartPage.ftl" />
+<#import "spring.ftl" as spring/>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,11 +14,10 @@
 <body>
 <@standardPage>
     <div id="info">
-        <a href="/customLogout">logout</a>
         <h1>Profile Page</h1>
-        <p>Username: {{ info.username }}</p>
-        <p>Email: {{ info.email }}</p>
-        <p>Role: {{ info.role }}</p>
+        <p><@spring.message 'profile.username'/>: {{ info.username }}</p>
+        <p><@spring.message 'profile.email'/>: {{ info.email }}</p>
+        <p><@spring.message 'profile.role'/>: {{ info.role }}</p>
         <a href="/editProfile">edit</a>
     </div>
 </@standardPage>

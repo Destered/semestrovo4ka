@@ -1,5 +1,7 @@
 package ru.destered.semestr3sem.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.io.FileOutputStream;
 @Controller
 @RequestMapping("/upload")
 @RequiredArgsConstructor
+@Tag(name="File controller", description="File controller API")
 public class FileUploadController {
 
     @GetMapping
@@ -19,6 +22,10 @@ public class FileUploadController {
         return "download_page";
     }
 
+    @Operation(
+            summary = "Upload image",
+            description = "Allow you upload image (also req file)"
+    )
     @PostMapping
     public @ResponseBody String handleFileUpload(@RequestParam("name") String name,
                                                  @RequestParam("file") MultipartFile file){
