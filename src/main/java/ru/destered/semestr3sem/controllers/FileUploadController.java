@@ -1,47 +1,46 @@
 package ru.destered.semestr3sem.controllers;
 
-import io.swagger.v3.oas.annotations.Operation;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
+import ru.destered.semestr3sem.dto.UserDto;
+import ru.destered.semestr3sem.services.implementations.UsersServiceImpl;
+import ru.destered.semestr3sem.services.interfaces.EditProfileService;
+import ru.destered.semestr3sem.services.interfaces.UploadingImageService;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import javax.servlet.http.Cookie;
 
 @Controller
-@RequestMapping("/upload")
+@RequestMapping("/uploadAvatar")
 @RequiredArgsConstructor
 @Tag(name="File controller", description="File controller API")
 public class FileUploadController {
+    private final UploadingImageService uploadingImageService;
+    private final UsersServiceImpl usersService;
+    private final EditProfileService editUserService;
 
-    @GetMapping
-    public String provideUploadInfo() {
-        return "download_page";
-    }
-
-    @Operation(
-            summary = "Upload image",
-            description = "Allow you upload image (also req file)"
-    )
     @PostMapping
-    public @ResponseBody String handleFileUpload(@RequestParam("name") String name,
-                                                 @RequestParam("file") MultipartFile file){
+    public @ResponseBody
+    RedirectView handleFileUpload(@CookieValue Cookie token,
+                                  @RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File("D:\\SemestrFiles\\" + name + ".png")));
-                stream.write(bytes);
-                stream.close();
-                return "Вы удачно загрузили " + name + " в " + name + ".png!";
+                String filename = uploadingImageService.upload(file);
+                DecodedJWT jwt = JWT.decode(token.getValue());
+                UserDto user = usersService.getUser(Long.parseLong(jwt.getSubject()));
+                user.setAvatarImageName(filename);
+                editUserService.updateProfileFromDto(Long.parseLong(jwt.getSubject()),user);
+                return new RedirectView("/logout");
             } catch (Exception e) {
-                return "Вам не удалось загрузить " + name + " => " + e.getMessage();
+                return new RedirectView("/error");
             }
         } else {
-            return "Вам не удалось загрузить " + name + " потому что файл пустой.";
+            return new RedirectView("/error");
         }
     }
 

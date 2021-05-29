@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Site site site</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
@@ -65,7 +67,7 @@
 <body class="text-center">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/home">IMBASite</a>
+    <a class="navbar-brand" href="/main">DisorganiseDeficiency</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -73,26 +75,42 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
-            </li>
+            <#if isLogged!false == true>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/createPost">Create post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/allPosts">List of posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            <#else>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/signUp">Sign Up <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Sign In</a>
+                </li>
+            </#if>
             <li class="nav-item">
-                <a class="nav-link" href="/createPost">Create post</a>
+                <a class="nav-link" href="/support">Support</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/allPosts">List of posts</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
+            <li>
+                <div class="search_box" style="left: 90%">
+                    <form autocomplete="off" id="searchForm">
+                        <input type="text" name="name" id="name" placeholder="<@spring.message 'header_search.text'/>">
+                        <button type="button" onclick="findUser()"> <@spring.message 'header_search.button'/></button>
+                    </form>
+                </div>
             </li>
         </ul>
     </div>
 </nav>
+<div id="search_box-result"></div>
 
-<div class="search_box">
-    <form autocomplete="off" id="searchForm">
-        <input type="text" name="name" id="name" placeholder="Введите никнейм пользователя">
-        <button type="button" onclick="findUser()"> Поиск по пользователям</button>
-    </form>
-    <div id="search_box-result"></div>
+
 </div>

@@ -13,6 +13,10 @@ import ru.destered.semestr3sem.exceptions.EmailNotConfirmException;
 import ru.destered.semestr3sem.exceptions.LoginProcessErrorException;
 import ru.destered.semestr3sem.exceptions.StorageFileNotFoundException;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 @ControllerAdvice
 public class AppExceptionHandler {
 
@@ -40,7 +44,9 @@ public class AppExceptionHandler {
     }
 
     @GetMapping("/error")
-    public String getErrorPage(@RequestParam(value = "error", required = false) String error, Model model){
+    public String getErrorPage(@RequestParam(value = "error", required = false) String error, Model model, ServletRequest servletRequest){
+        Cookie token = WebUtils.getCookie((HttpServletRequest)servletRequest,"token");
+        model.addAttribute("isLogged", token != null);
         if(error != null && !error.equals(""))model.addAttribute("error",error);
         else model.addAttribute("error","Unknown error");
         return "error";

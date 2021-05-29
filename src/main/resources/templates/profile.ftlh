@@ -18,6 +18,16 @@
         <p><@spring.message 'profile.username'/>: {{ info.username }}</p>
         <p><@spring.message 'profile.email'/>: {{ info.email }}</p>
         <p><@spring.message 'profile.role'/>: {{ info.role }}</p>
+        <#if phoneNumber?has_content>
+            <p><@spring.message 'profile.phone'/>: {{ info.phone }}</p>
+        <#else>
+            <p><@spring.message 'profile.phone'/>: <@spring.message 'profile.phoneNotInput'/></p>
+        </#if>
+
+        <#if avatarImageName?has_content>
+            <img src="/img/${avatarImageName}">
+            <br>
+        </#if>
         <a href="/editProfile">edit</a>
     </div>
 </@standardPage>
@@ -25,7 +35,7 @@
 <script>
     let vm = new Vue({
         el: "#info",
-        data: {info:[]},
+        data: {info: []},
         mounted() {
             axios.get('/getProfile').then(
                 res => {

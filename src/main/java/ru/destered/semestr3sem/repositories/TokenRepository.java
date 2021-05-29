@@ -1,6 +1,5 @@
 package ru.destered.semestr3sem.repositories;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.destered.semestr3sem.models.JwtToken;
 

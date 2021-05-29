@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.destered.semestr3sem.dto.UserDto;
 import ru.destered.semestr3sem.dto.forms.SignUpForm;
 import ru.destered.semestr3sem.models.User;
 import ru.destered.semestr3sem.repositories.UsersRepository;
@@ -28,6 +29,15 @@ public class EditProfileServiceImpl implements EditProfileService {
         user.setPhone(form.getPhone());
         phoneService.sendSms(form.getPhone(),"Номер успешно привязан");
 
+        repository.save(user);
+    }
+
+    @SneakyThrows
+    @Override
+    public void updateProfileFromDto(Long userId, UserDto userDto) {
+        User user = repository.findById(userId)
+                .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
+        user.setAvatarImageName(userDto.getAvatarImageName());
         repository.save(user);
     }
 }

@@ -43,6 +43,7 @@ public class LoginServiceImpl implements LoginService {
                     .withClaim("role", user.getRole().toString())
                     .withClaim("state", user.getState().toString())
                     .withClaim("code", user.getCurrentConfirmationCode())
+                    .withClaim("avatarImageName", user.getAvatarImageName())
                     .withClaim("phone",user.getPhone())
                     .sign(Algorithm.HMAC256(key));
             JwtToken token = JwtToken.builder()

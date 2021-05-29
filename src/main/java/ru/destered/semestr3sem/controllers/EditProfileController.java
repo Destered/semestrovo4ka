@@ -30,6 +30,7 @@ public class EditProfileController {
     public RedirectView updateProfile(SignUpForm form, @CookieValue Cookie token) {
         DecodedJWT jwt = JWT.decode(token.getValue());
         service.updateProfile(Long.parseLong(jwt.getSubject()), form);
-        return new RedirectView("/customLogout");
+        return new RedirectView("/logout");
     }
+
 }

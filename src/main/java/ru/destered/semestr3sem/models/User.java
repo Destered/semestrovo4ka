@@ -5,7 +5,6 @@ import lombok.*;
 import ru.destered.semestr3sem.dto.forms.SignUpForm;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import java.util.List;
 @ToString
 public class User {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -30,12 +28,13 @@ public class User {
 
     @Column(name = "password")
     @NotNull
-    @Min(6)
     private String password;
 
     @Column(name = "username")
     @NotNull
     private String username;
+
+    private String avatarImageName;
 
     private String phone = "";
 

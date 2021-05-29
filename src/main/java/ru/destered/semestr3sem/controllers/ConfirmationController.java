@@ -19,7 +19,7 @@ public class ConfirmationController {
     public String confirmAccount(@PathVariable(name = "key") String code,
                                  RedirectAttributes redirectAttributes) {
         boolean confirmationResult = confirmationService.confirmByCode(code);
-        String redirectUrl = confirmationResult ? "redirect:/signIn" : "redirect:/signIn";
+        String redirectUrl = confirmationResult ? "redirect:/login" : "redirect:/login";
         String infoMessage = confirmationResult ? "Successfully confirmed" : "Code not found";
         return redirectUrl;
     }

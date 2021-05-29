@@ -18,6 +18,7 @@ public class UserDto {
     private String code;
     private String email;
     private String state;
+    private String avatarImageName;
     private String role;
     private String phone;
 
@@ -28,6 +29,7 @@ public class UserDto {
                 .code(user.getCurrentConfirmationCode())
                 .email(user.getEmail())
                 .phone(user.getPhone())
+                .avatarImageName(user.getAvatarImageName())
                 .build();
     }
 

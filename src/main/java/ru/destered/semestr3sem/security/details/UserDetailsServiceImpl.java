@@ -3,12 +3,10 @@ package ru.destered.semestr3sem.security.details;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import ru.destered.semestr3sem.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import ru.destered.semestr3sem.models.User;
 import ru.destered.semestr3sem.repositories.TokenRepository;
 
 
