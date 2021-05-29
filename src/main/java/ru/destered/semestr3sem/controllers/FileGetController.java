@@ -2,6 +2,7 @@ package ru.destered.semestr3sem.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +20,15 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class FileGetController {
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     @GetMapping("/{filename}")
     public String getFile(@PathVariable(name = "filename") String filename,
                           RedirectAttributes redirectAttributes, Model model) throws IOException {
-        String path = "D:\\SemestrFiles\\";
-        if(filename.contains(".png"))  path += filename;
+        if(filename.contains(".png"))  uploadPath += filename;
         else return ("redirect:/download/" + filename + ".png");
-        File img = new File(path);
+        File img = new File(uploadPath);
         byte[] data = Files.readAllBytes(img.toPath());
         byte[] encoded = Base64.getEncoder().encode(data);
         String imgDataAsBase64 = new String(encoded);

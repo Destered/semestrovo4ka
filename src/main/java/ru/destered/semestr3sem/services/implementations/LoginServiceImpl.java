@@ -50,7 +50,8 @@ public class LoginServiceImpl implements LoginService {
                     .user(user)
                     .value(tokenValue)
                     .build();
-            if(tokenRepository.existsByUser_Id(user.getId())){
+            boolean userExists = tokenRepository.existsByUser_Id(user.getId())
+            if(userExists){
                 tokenRepository.deleteByUser_Id(user.getId());
             }
             tokenRepository.save(token);

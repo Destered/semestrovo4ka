@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.destered.semestr3sem.dto.UserDto;
+import ru.destered.semestr3sem.dto.forms.EmailForm;
 import ru.destered.semestr3sem.models.User;
 import ru.destered.semestr3sem.services.interfaces.MailService;
 import ru.destered.semestr3sem.services.interfaces.SenderService;
@@ -22,12 +23,23 @@ public class MailServiceImpl implements MailService {
     @Value("${server.basic.address}")
     private String serverBasicAddress;
 
+    @Value("${admin.email}")
+    private String adminEmail;
+
     @Override
     public void sendMail(UserDto userDto) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("name", userDto.getUsername());
         parameters.put("link", serverBasicAddress + "confirm/" + userDto.getCode());
         sendMail(parameters, "mail.ftl", userDto.getEmail(), "Confirm your registration");
+    }
+
+    @Override
+    public void sendSupportMail(EmailForm form) {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("email", form.getEmail());
+        parameters.put("text", form.getText());
+        sendMail(parameters, "supportMail.ftl", adminEmail, "Support request");
     }
 
     @Override

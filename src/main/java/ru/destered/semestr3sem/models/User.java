@@ -6,6 +6,7 @@ import ru.destered.semestr3sem.dto.forms.SignUpForm;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.destered.semestr3sem.dto.SearchForm;
+import ru.destered.semestr3sem.dto.forms.SearchForm;
 import ru.destered.semestr3sem.dto.UserDto;
 import ru.destered.semestr3sem.models.User;
 import ru.destered.semestr3sem.repositories.UsersRepository;

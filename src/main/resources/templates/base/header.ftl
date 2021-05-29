@@ -100,7 +100,7 @@
                 <a class="nav-link" href="/support">Support</a>
             </li>
             <li>
-                <div class="search_box" style="left: 90%">
+                <div class="search_box">
                     <form autocomplete="off" id="searchForm">
                         <input type="text" name="name" id="name" placeholder="<@spring.message 'header_search.text'/>">
                         <button type="button" onclick="findUser()"> <@spring.message 'header_search.button'/></button>

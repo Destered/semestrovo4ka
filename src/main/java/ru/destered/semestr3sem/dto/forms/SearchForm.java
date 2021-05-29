@@ -1,4 +1,4 @@
-package ru.destered.semestr3sem.dto;
+package ru.destered.semestr3sem.dto.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

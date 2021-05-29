@@ -22,7 +22,7 @@ public class UploadingImageServiceImpl implements UploadingImageService {
 
         String filename = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
 
-        File photo = new File(uploadPath + "/" + filename);
+        File photo = new File(uploadPath + '/' + filename);
         try {
             file.transferTo(photo);
         } catch (IOException e) {throw new IllegalStateException(e);}

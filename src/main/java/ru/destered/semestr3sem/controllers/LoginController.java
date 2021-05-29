@@ -29,7 +29,9 @@ public class LoginController {
     )
     @PostMapping("/login")
     public RedirectView login(UserAuthForm form, HttpServletResponse response, @CookieValue(required = false) Cookie token) {
-       if (token != null) token.setMaxAge(-1);
+       if (token != null) {
+           token.setMaxAge(-1);
+       }
         TokenDto jwt = login.login(form);
         Cookie cookie = new Cookie("token", jwt.getToken());
         cookie.setMaxAge(60*60*24);
