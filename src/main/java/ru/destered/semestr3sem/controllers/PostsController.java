@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.destered.semestr3sem.dto.TokenDto;
 import ru.destered.semestr3sem.dto.forms.PostForm;
+import ru.destered.semestr3sem.models.Comment;
 import ru.destered.semestr3sem.models.Post;
+import ru.destered.semestr3sem.services.interfaces.CommentService;
 import ru.destered.semestr3sem.services.interfaces.PostsService;
 
 import javax.servlet.http.Cookie;
@@ -23,7 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Tag(name="Post controller", description="Post controller API")
 public class PostsController {
-    private final PostsService service;
+    private final PostsService postsService;
+    private final CommentService commentService;
 
     @Operation(
             summary = "get single post",
@@ -32,7 +35,7 @@ public class PostsController {
     @PreAuthorize("permitAll()")
     @GetMapping("/posts/{id}")
     public ResponseEntity<Post> getPosts(@PathVariable Optional<Long> id) {
-        return new ResponseEntity<>(service.getPosts(id
+        return new ResponseEntity<>(postsService.getPosts(id
                 .orElseThrow(InternalError::new)), HttpStatus.OK);
     }
 
@@ -43,7 +46,7 @@ public class PostsController {
     @PreAuthorize("permitAll()")
     @GetMapping("/posts")
     public ResponseEntity<Page<Post>> getAllPosts(@PageableDefault(size = 5) Pageable pageable) {
-        return new ResponseEntity<>(service.getAllPosts(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(postsService.getAllPosts(pageable), HttpStatus.OK);
     }
 
     @Operation(
@@ -53,7 +56,7 @@ public class PostsController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/posts")
     public RedirectView createPosts(PostForm form, @CookieValue Cookie token) {
-        if (service.createPost(form, token.getValue()) == null) throw new IllegalStateException();
+        if (postsService.createPost(form, token.getValue()) == null) throw new IllegalStateException();
         return new RedirectView("/allPosts");
     }
 
@@ -64,8 +67,24 @@ public class PostsController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/posts/{id}")
     public RedirectView updatePosts(@PathVariable Long id, PostForm form, @CookieValue Cookie token) {
-        if (service.updatePost(id, form, TokenDto.builder().token(token.getValue()).build()) == null) throw new IllegalStateException();
+        if (postsService.updatePost(id, form, TokenDto.builder().token(token.getValue()).build()) == null) throw new IllegalStateException();
         return new RedirectView("/allPosts");
+    }
+
+    @PostMapping("/post/{id}/addComment")
+    public RedirectView addComment(@PathVariable Long id, String text){
+        Post post = postsService.getPosts(id);
+        Comment comment = null;
+        if(text != null && !text.equals("")){
+            comment = Comment.commentFromText(text,post);
+        } else{
+            comment = Comment.commentFromText("test text",post);
+        }
+        commentService.saveComment(comment);
+        post.addComment(comment);
+        postsService.updatePostComment(id,post);
+
+        return new RedirectView("redirect:/post?id="+id);
     }
 
     @Operation(
@@ -75,7 +94,7 @@ public class PostsController {
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/posts/{id}")
     public ResponseEntity<?> deletePosts(@PathVariable Long id) {
-        service.deletePost(id);
+        postsService.deletePost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

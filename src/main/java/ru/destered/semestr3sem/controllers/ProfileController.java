@@ -37,12 +37,9 @@ public class ProfileController {
         DecodedJWT jwt = JWT.decode(token.getValue());
         return UserDto.builder()
                 .id(Long.parseLong(jwt.getSubject()))
-                .username(jwt.getClaim("username").asString())
                 .email(jwt.getClaim("email").asString())
                 .role(jwt.getClaim("role").asString())
                 .state(jwt.getClaim("state").asString())
-                .phone(jwt.getClaim("phone").asString())
-                .avatarImageName(jwt.getClaim("avatarImageName").asString())
                 .build();
     }
 

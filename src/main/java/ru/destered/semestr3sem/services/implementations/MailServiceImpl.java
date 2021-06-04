@@ -3,22 +3,26 @@ package ru.destered.semestr3sem.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.destered.semestr3sem.dto.UserDto;
 import ru.destered.semestr3sem.dto.forms.EmailForm;
 import ru.destered.semestr3sem.models.User;
+import ru.destered.semestr3sem.repositories.UsersRepository;
 import ru.destered.semestr3sem.services.interfaces.MailService;
 import ru.destered.semestr3sem.services.interfaces.SenderService;
 import ru.destered.semestr3sem.services.interfaces.TemplateProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
     private final TemplateProcessor templateProcessor;
     private final SenderService senderService;
+    private final UsersRepository repository;
 
     @Value("${server.basic.address}")
     private String serverBasicAddress;
@@ -27,11 +31,18 @@ public class MailServiceImpl implements MailService {
     private String adminEmail;
 
     @Override
-    public void sendMail(UserDto userDto) {
+    public String sendMail(UserDto userDto) {
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("name", userDto.getUsername());
+        try {
+            User user = repository.findById(userDto.getId())
+                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
+            parameters.put("name", user.getUsername());
+        } catch(Throwable ex){
+            return "redirect:/error";
+        }
         parameters.put("link", serverBasicAddress + "confirm/" + userDto.getCode());
         sendMail(parameters, "mail.ftl", userDto.getEmail(), "Confirm your registration");
+        return "redirect:/login";
     }
 
     @Override

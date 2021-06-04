@@ -1,7 +1,7 @@
 <#include "./base/standartPage.ftl" />
 <#import "spring.ftl" as spring/>
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -77,6 +77,15 @@
             <a type="button" class="btn btn-warning" v-bind:href="'/editPost?id=' + result.id">Edit</a>
         </blockquote>
     </div>
+    <ul id="messagesList">
+        <li v-for="comment in result.commentsList">
+            {{ comment.text }}
+        </li>
+    </ul>
+    <form  action="/post/${id}/addComment"  method="post">
+        <p>Description: <input type="text" name="text" id="text"/></p>
+        <p><input type="submit" value="Submit" id="button" /> <input type="reset" value="Reset" /></p>
+    </form>
 </div>
 
 </@standardPage>

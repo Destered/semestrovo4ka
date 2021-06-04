@@ -42,15 +42,12 @@ public class LoginServiceImpl implements LoginService {
                     .withClaim("email", user.getEmail())
                     .withClaim("role", user.getRole().toString())
                     .withClaim("state", user.getState().toString())
-                    .withClaim("code", user.getCurrentConfirmationCode())
-                    .withClaim("avatarImageName", user.getAvatarImageName())
-                    .withClaim("phone",user.getPhone())
                     .sign(Algorithm.HMAC256(key));
             JwtToken token = JwtToken.builder()
                     .user(user)
                     .value(tokenValue)
                     .build();
-            boolean userExists = tokenRepository.existsByUser_Id(user.getId())
+            boolean userExists = tokenRepository.existsByUser_Id(user.getId());
             if(userExists){
                 tokenRepository.deleteByUser_Id(user.getId());
             }

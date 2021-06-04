@@ -16,8 +16,8 @@
     <div id="info">
         <h1><@spring.message 'profile.title'/></h1>
         <p><@spring.message 'profile.username'/>: ${username}</p>
-        <p><@spring.message 'profile.email'/>: ${email}</p>
-        <p><@spring.message 'profile.role'/>: ${role}</p>
+        <p><@spring.message 'profile.email'/>: {{ info.email }}</p>
+        <p><@spring.message 'profile.role'/>: {{ info.role }}</p>
         <#if phone?has_content>
             <p><@spring.message 'profile.phone'/>: ${phone}</p>
         <#else>
@@ -28,7 +28,10 @@
             <img src="/img/${avatarImageName}">
             <br>
         </#if>
-        <a class="btn btn-warning" href="/editProfile">Edit</a>
+        <#if isOwner == true>
+            <a class="btn btn-warning" href="/editProfile">Edit</a>
+        </#if>
+
     </div>
 </@standardPage>
 

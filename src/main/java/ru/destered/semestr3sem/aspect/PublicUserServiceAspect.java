@@ -20,15 +20,17 @@ public class PublicUserServiceAspect {
         private Logger logger = Logger.getLogger(PublicUserServiceAspect.class.getName());
 
         @Pointcut("execution(public * ru.destered.semestr3sem.services.implementations.UsersServiceImpl.*(..))")
-        public void getPublicInfo() {}
+        public void getPublicInfo() {
+            //Need for aspect after and before working
+        }
 
         @Around(value = "getPublicInfo()")
         public Object log(ProceedingJoinPoint joinPoint) throws Throwable{
-            logger.log(Level.INFO, "Invoked method: " + joinPoint.getSignature());
+            logger.log(Level.INFO, "Invoked: " + joinPoint.getSignature());
             logger.log(Level.INFO, "Arguments: " + Arrays.toString(joinPoint.getArgs()));
-            logger.log(Level.INFO, "Started time: " + LocalTime.now());
+            logger.log(Level.INFO, "Started: " + LocalTime.now());
+            logger.log(Level.INFO, "Ended: " + LocalTime.now());
             Object joinPoint1 = joinPoint.proceed();
-            logger.log(Level.INFO, "Ended time: " + LocalTime.now());
             return joinPoint1;
         }
 

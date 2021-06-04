@@ -18,23 +18,23 @@ public class UserDto {
     private String code;
     private String email;
     private String state;
+    private String phone;
     private String avatarImageName;
     private String role;
-    private String phone;
+
 
     public static UserDto fromUser(User user) {
         return UserDto.builder()
-                .username(user.getUsername())
                 .id(user.getId())
-                .code(user.getCurrentConfirmationCode())
                 .email(user.getEmail())
                 .phone(user.getPhone())
+                .username(user.getUsername())
                 .avatarImageName(user.getAvatarImageName())
                 .build();
     }
 
     @Override
     public String toString() {
-        return id+";"+username+";"+email;
+        return id+";"+email+";"+username;
     }
 }

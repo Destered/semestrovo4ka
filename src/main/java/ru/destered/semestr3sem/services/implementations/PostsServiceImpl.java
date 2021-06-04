@@ -74,6 +74,11 @@ public class PostsServiceImpl implements PostsService {
     }
 
     @Override
+    public Post updatePostComment(Long id, Post post) {
+        return repository.save(post);
+    }
+
+    @Override
     public void deletePost(Long id) {
         Post postForDelete = repository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);

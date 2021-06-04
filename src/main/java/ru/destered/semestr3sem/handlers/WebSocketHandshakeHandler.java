@@ -1,0 +1,26 @@
+package ru.destered.semestr3sem.handlers;
+
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.server.HandshakeFailureException;
+import org.springframework.web.socket.server.HandshakeHandler;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+
+import java.util.Map;
+
+
+@Component
+public class WebSocketHandshakeHandler implements HandshakeHandler {
+
+    private DefaultHandshakeHandler handshakeHandler = new DefaultHandshakeHandler();
+
+    @Override
+    public boolean doHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws HandshakeFailureException {
+        ServletServerHttpRequest request = (ServletServerHttpRequest)serverHttpRequest;
+        return handshakeHandler.doHandshake(serverHttpRequest, serverHttpResponse, webSocketHandler, map);
+    }
+}
+

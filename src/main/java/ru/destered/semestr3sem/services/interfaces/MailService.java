@@ -6,7 +6,7 @@ import ru.destered.semestr3sem.dto.forms.EmailForm;
 import ru.destered.semestr3sem.models.User;
 
 public interface MailService {
-    void sendMail(UserDto userDto);
+    String sendMail(UserDto userDto);
 
     void sendSupportMail(EmailForm form);
 

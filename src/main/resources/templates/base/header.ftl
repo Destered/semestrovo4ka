@@ -38,7 +38,7 @@
                         let parsed = msg.split(";")
                         let el = document.createElement("div");
                         el.innerHTML =
-                            "<div class=\"search_result\"><table><tr><td class=\"search_result-name\">" + parsed[1] + "</a></td><td class=\"search_result-btn\"><a href=\"#\">Перейти</a></td> </tr> </table> </div>"
+                            "<div class=\"search_result\"><table><tr><td class=\"search_result-name\">" + parsed[2] + "</a></td><td class=\"search_result-btn\"><a href=\"usersProfile\\" + parsed[0] + "\" >Профиль</a></td> </tr> </table> </div>"
                         rootEl.appendChild(el);
                     }
 
@@ -77,27 +77,30 @@
         <ul class="navbar-nav mr-auto">
             <#if isLogged!false == true>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/profile"><@spring.message 'header.profile'/> <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/createPost">Create post</a>
+                    <a class="nav-link" href="/createPost"><@spring.message 'header.create_post'/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/allPosts">List of posts</a>
+                    <a class="nav-link" href="/allPosts"><@spring.message 'header.post_list'/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="/chat"><@spring.message 'header.chat'/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout"><@spring.message 'header.logout'/></a>
                 </li>
             <#else>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/signUp">Sign Up <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/signUp"><@spring.message 'header.sign_up'/> <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Sign In</a>
+                    <a class="nav-link" href="/login"><@spring.message 'header.sign_in'/></a>
                 </li>
             </#if>
             <li class="nav-item">
-                <a class="nav-link" href="/support">Support</a>
+                <a class="nav-link" href="/support"><@spring.message 'header.support'/></a>
             </li>
             <li>
                 <div class="search_box">

@@ -15,5 +15,7 @@ public interface PostsService {
 
      Post updatePost(Long id, PostForm form, TokenDto token);
 
+     Post updatePostComment(Long id,Post post);
+
     void deletePost(Long id);
 }
