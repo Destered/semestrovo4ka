@@ -6,7 +6,6 @@ import ru.destered.semestr3sem.dto.forms.SignUpForm;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.List;
 
 

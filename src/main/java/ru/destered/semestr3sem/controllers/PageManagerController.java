@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +26,8 @@ public class PageManagerController {
     private final UsersRepository repository;
     
     private static final String ISLOGGED = "isLogged";
+    private static final String USER_NOT_FOUND = "user not found";
+    private static final String USERNAME = "username";
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
@@ -34,14 +35,14 @@ public class PageManagerController {
         DecodedJWT jwt = JWT.decode(token.getValue());
         try {
             User user = repository.findById(Long.parseLong(jwt.getSubject()))
-                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
-            model.addAttribute("username",user.getUsername());
+                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException(USER_NOT_FOUND));
+            model.addAttribute(USERNAME,user.getUsername());
             model.addAttribute("avatarImageName",user.getAvatarImageName());
             model.addAttribute("phone",user.getPhone());
             model.addAttribute("email",user.getEmail());
             model.addAttribute("role",user.getRole());
         } catch(Throwable ex){
-            return "redirect:/error";
+            throw new IllegalStateException();
         }
         model.addAttribute(ISLOGGED,true);
         return "profile";
@@ -96,8 +97,8 @@ public class PageManagerController {
         DecodedJWT jwt = JWT.decode(token.getValue());
         try{
             User user = repository.findById(Long.parseLong(jwt.getSubject()))
-                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
-            model.addAttribute("username",user.getUsername());
+                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException(USER_NOT_FOUND));
+            model.addAttribute(USERNAME,user.getUsername());
         } catch(Throwable ex){
             throw new IllegalStateException();
         }
@@ -112,15 +113,11 @@ public class PageManagerController {
         DecodedJWT jwt = JWT.decode(token.getValue());
         try{
             User currentUser = repository.findById(Long.parseLong(jwt.getSubject()))
-                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
+                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException(USER_NOT_FOUND));
             User profileUser = repository.findById(Long.parseLong(id))
-                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
-            if(currentUser.getId().equals(profileUser.getId())){
-                model.addAttribute("isOwner",true);
-            }else{
-                model.addAttribute("isOwner",false);
-            }
-            model.addAttribute("username",profileUser.getUsername());
+                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException(USER_NOT_FOUND));
+            model.addAttribute("isOwner",currentUser.getId().equals(profileUser.getId()));
+            model.addAttribute(USERNAME,profileUser.getUsername());
             model.addAttribute("email",profileUser.getEmail());
             model.addAttribute("role",profileUser.getRole());
         } catch(Throwable ex){
@@ -145,8 +142,8 @@ public class PageManagerController {
         DecodedJWT jwt = JWT.decode(token.getValue());
         try{
             User user = repository.findById(Long.parseLong(jwt.getSubject()))
-                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
-            model.addAttribute("username",user.getUsername());
+                    .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException(USER_NOT_FOUND));
+            model.addAttribute(USERNAME,user.getUsername());
             model.addAttribute("id",id);
         } catch(Throwable ex){
             throw new IllegalStateException();

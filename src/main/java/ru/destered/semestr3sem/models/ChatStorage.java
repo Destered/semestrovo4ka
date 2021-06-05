@@ -8,27 +8,27 @@ import java.util.List;
 public class ChatStorage {
     int lastFreeIndex = 0;
     boolean firstIter = true;
-    private  List<TextMessage> chatStorage = new ArrayList<>();
+    private  List<TextMessage> messageStorage = new ArrayList<>();
 
     public int addMessage(TextMessage message) {
         if (lastFreeIndex == 100) {
             lastFreeIndex = 0;
             List<TextMessage> newStorage = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
-                newStorage.add(chatStorage.get(80+i));
+                newStorage.add(messageStorage.get(80+i));
             }
-            chatStorage = newStorage;
+            messageStorage = newStorage;
         }
         if (firstIter) {
-            chatStorage.add(message);
+            messageStorage.add(message);
         } else {
-            chatStorage.set(lastFreeIndex, message);
+            messageStorage.set(lastFreeIndex, message);
         }
         lastFreeIndex++;
         return lastFreeIndex;
     }
 
     public List<TextMessage> getNewMessage() {
-        return chatStorage;
+        return messageStorage;
     }
 }

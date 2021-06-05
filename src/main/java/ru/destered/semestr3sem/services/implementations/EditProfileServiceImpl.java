@@ -24,11 +24,11 @@ public class EditProfileServiceImpl implements EditProfileService {
     public void updateProfile(Long userId, SignUpForm form) {
         User user = repository.findById(userId)
                 .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
-        if(form.getPhone() != null && form.getPhone() != ""){
+        if(form.getPhone() != null && !form.getPhone().equals("")){
             user.setPhone(form.getPhone());
             phoneService.sendSms(form.getPhone(),"Номер успешно привязан");
         }
-        if(form.getUsername() != null && form.getUsername() != ""){
+        if(form.getUsername() != null && !form.getUsername().equals("")){
             user.setUsername(form.getUsername());
         }
 

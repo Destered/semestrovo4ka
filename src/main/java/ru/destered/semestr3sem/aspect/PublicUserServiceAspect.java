@@ -30,8 +30,7 @@ public class PublicUserServiceAspect {
             logger.log(Level.INFO, "Arguments: " + Arrays.toString(joinPoint.getArgs()));
             logger.log(Level.INFO, "Started: " + LocalTime.now());
             logger.log(Level.INFO, "Ended: " + LocalTime.now());
-            Object joinPoint1 = joinPoint.proceed();
-            return joinPoint1;
+            return joinPoint.proceed();
         }
 
         @AfterReturning(value = "getPublicInfo()", returning = "returningValue")
