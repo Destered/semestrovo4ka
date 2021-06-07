@@ -51,6 +51,8 @@ public class Post {
             cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
 
+    private String fileName;
+
 
     public void addComment(Comment comment) {
         comments.add(comment);

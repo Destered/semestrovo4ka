@@ -11,7 +11,7 @@ public interface PostsService {
 
      Page<Post> getAllPosts(Pageable pageable);
 
-     Post createPost(PostForm form, String token);
+     Post createPost(PostForm form, String token, String filename);
 
      Post updatePost(Long id, PostForm form, TokenDto token);
 

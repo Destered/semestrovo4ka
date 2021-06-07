@@ -24,9 +24,12 @@ public class Comment {
 
     private String text = "";
 
-    public static Comment commentFromText(String text,Post post) {
+    private String username = "";
+
+    public static Comment commentFromText(String username, String text,Post post) {
         return Comment.builder()
                 .text(text)
+                .username(username)
                 .post(post)
                 .build();
     }

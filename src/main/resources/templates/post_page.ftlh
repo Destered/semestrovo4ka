@@ -11,9 +11,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Post</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/cover/">
-
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
     <!-- Bootstrap core CSS -->
-    <link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
 
     <script type="application/javascript">
@@ -49,11 +54,12 @@
                 }
             });
         }
-        function getFormData($form){
+
+        function getFormData($form) {
             var unindexed_array = $form.serializeArray();
             var indexed_array = {};
 
-            $.map(unindexed_array, function(n, i){
+            $.map(unindexed_array, function (n, i) {
                 indexed_array[n['name']] = n['value'];
             });
 
@@ -66,27 +72,36 @@
 </head>
 <body>
 <@standardPage>
-<div  class="card" id="wrapper">
-    <div class="card-header">
-        <p>{{ result.name }}</p>
+    <div id="postBody">
+    <div class="card" id="wrapper">
+        <div class="card-header">
+            <p>{{ result.name }}</p>
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p>{{ result.text }}</p>
+                <#if hasFile == true>
+                    <p>Post file: <a download v-bind:href="'/file/' + result.fileName">{{ result.fileName }}</a></p>
+                </#if>
+                <footer class="blockquote-footer">{{ result.creator.username }}</footer>
+                <#if isOwner == true>
+                    <a type="button" class="btn btn-warning" v-bind:href="'/editPost?id=' + result.id">Edit</a>
+                </#if>
+            </blockquote>
+        </div>
     </div>
-    <div class="card-body">
-        <blockquote class="blockquote mb-0">
-            <p>{{ result.text }}</p>
-            <footer class="blockquote-footer">{{ result.creator.username }}</footer>
-            <a type="button" class="btn btn-warning" v-bind:href="'/editPost?id=' + result.id">Edit</a>
-        </blockquote>
+    <div id="messagesList">
+        <div class="media-body" v-for="comment in result.slice().reverse()">
+            <h6 class="media-heading">{{comment.username}}</h6>
+            <small class="col-lg-10">{{ comment.text }}</small>
+        </div>
     </div>
-    <ul id="messagesList" >
-        <li v-for="comment in result">
-            {{ comment.text }}
-        </li>
-    </ul>
-    <form  action="/post/${id}/addComment"  method="post">
-        <p>Description: <input type="text" name="text" id="text"/></p>
-        <p><input type="submit" value="Submit" id="button" /> <input type="reset" value="Reset" /></p>
+    <form action="/post/${id}/addComment" method="post">
+        <input class="form-control form-control-sm" type="text" name="text" placeholder="Input comment">
+        <p><input type="submit" value="Send" id="button"/></p>
     </form>
-</div>
+    </div>
+
 
 </@standardPage>
 </body>
@@ -97,21 +112,25 @@
         mounted() {
             axios.get('/posts/' + getAllUrlParams().id).then(
                 res => {
+                    let fileName = res.data.fileName
+                    if (fileName != null) {
+                        res.data.fileName = fileName.substr(fileName.indexOf('.') + 1)
+                    }
                     this.result = res.data;
                 }
             );
         }
-    });
+    })
 
     let commentsVm = new Vue({
         el: "#messagesList",
         data: {result: []},
         mounted() {
-            axios.get('/posts/comments/' + getAllUrlParams().id).then(
-                res => {
-                    this.result = res.data;
-                }
-            )
+                axios.get('/posts/comments/' + getAllUrlParams().id).then(
+                    res => {
+                        this.result = res.data;
+                    }
+                )
         }
     });
 
@@ -121,14 +140,14 @@
         if (queryString) {
             queryString = queryString.split('#')[0];
             var arr = queryString.split('&');
-            for (var i=0; i<arr.length; i++) {
+            for (var i = 0; i < arr.length; i++) {
                 var a = arr[i].split('=');
                 var paramNum = undefined;
-                var paramName = a[0].replace(/\[\d*\]/, function(v) {
-                    paramNum = v.slice(1,-1);
+                var paramName = a[0].replace(/\[\d*\]/, function (v) {
+                    paramNum = v.slice(1, -1);
                     return '';
                 });
-                var paramValue = typeof(a[1])==='undefined' ? true : a[1];
+                var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
                 paramName = paramName.toLowerCase();
                 paramValue = paramValue.toLowerCase();
                 if (obj[paramName]) {
@@ -136,12 +155,10 @@
                     }
                     if (typeof paramNum === 'undefined') {
                         obj[paramName].push(paramValue);
-                    }
-                    else {
+                    } else {
                         obj[paramName][paramNum] = paramValue;
                     }
-                }
-                else {
+                } else {
                     obj[paramName] = paramValue;
                 }
             }

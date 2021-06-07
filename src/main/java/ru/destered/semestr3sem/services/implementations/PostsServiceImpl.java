@@ -41,13 +41,16 @@ public class PostsServiceImpl implements PostsService {
 
     @SneakyThrows
     @Override
-    public Post createPost(PostForm form, String token) {
+    public Post createPost(PostForm form, String token, String filename) {
         DecodedJWT jwt = JWT.decode(token);
 
         User user = usersRepository.findById(Long.parseLong(jwt.getSubject()))
                 .orElseThrow((Supplier<Throwable>) () -> new UsernameNotFoundException("user not found"));
 
         Post post = mapper.formToPost(form);
+        if(filename != null){
+            post.setFileName(filename);
+        }
         post.setDateOfCreation(Date.valueOf(LocalDate.now()));
         post.setCreator(user);
         post.setRating(0.0);

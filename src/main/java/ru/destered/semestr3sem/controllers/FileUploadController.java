@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import ru.destered.semestr3sem.dto.UserDto;
 import ru.destered.semestr3sem.services.implementations.UsersServiceImpl;
 import ru.destered.semestr3sem.services.interfaces.EditProfileService;
-import ru.destered.semestr3sem.services.interfaces.UploadingImageService;
+import ru.destered.semestr3sem.services.interfaces.FileUploadService;
 
 import javax.servlet.http.Cookie;
 
@@ -20,7 +20,7 @@ import javax.servlet.http.Cookie;
 @RequiredArgsConstructor
 @Tag(name="File controller", description="File controller API")
 public class FileUploadController {
-    private final UploadingImageService uploadingImageService;
+    private final FileUploadService fileUploadService;
     private final UsersServiceImpl usersService;
     private final EditProfileService editUserService;
 
@@ -30,12 +30,12 @@ public class FileUploadController {
                                   @RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
-                String filename = uploadingImageService.upload(file);
+                String filename = fileUploadService.uploadFile(file);
                 DecodedJWT jwt = JWT.decode(token.getValue());
                 UserDto user = usersService.getUser(Long.parseLong(jwt.getSubject()));
                 user.setAvatarImageName(filename);
                 editUserService.updateProfileFromDto(Long.parseLong(jwt.getSubject()),user);
-                return new RedirectView("/logout");
+                return new RedirectView("/profile");
             } catch (Exception e) {
                 return new RedirectView("/error");
             }

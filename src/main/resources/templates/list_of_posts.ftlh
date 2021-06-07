@@ -69,7 +69,7 @@
 <body>
 <@standardPage>
     <div id="wrapper">
-        <div class="card" v-for="post in result.content">
+        <div class="card postList" v-for="post in result.content">
             <div class="card-header">
                 <a v-bind:href="'/post?id=' + post.id">{{ post.name }}</a>
             </div>

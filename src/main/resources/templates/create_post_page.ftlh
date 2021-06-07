@@ -62,25 +62,23 @@
 
     </script>
 
-    <style>
-        .margin{
-            margin-inline: 30%;
-        }
-    </style>
-
 </head>
 <body>
 <@standardPage>
 
 
-<form method="post" action="/posts">
-    <div class="form-group margin" id="inputPostTitle">
+<form method="post" action="/posts" enctype="multipart/form-data" id="postCreateBody">
+    <div class="form-group" id="inputPostTitle">
         <label for="inputPostTitle">Post Title</label>
         <input type="text" class="form-control" name="name" >
     </div>
     <div class="form-group margin">
         <label for="inputPostInfo ">Post Info</label>
         <textarea name = "text" type="text" class="form-control" id="inputPostInfo"></textarea>
+    </div>
+    <div class="form-group margin">
+        <label for="inputPostInfo ">Upload File (optional)</label>
+        <input type="file" name="file">
     </div>
     <button type="submit" class="btn btn-primary margin">Обновить</button>
 </form>
