@@ -15,10 +15,12 @@ import ru.destered.semestr3sem.dto.TokenDto;
 import ru.destered.semestr3sem.dto.forms.PostForm;
 import ru.destered.semestr3sem.models.Comment;
 import ru.destered.semestr3sem.models.Post;
+import ru.destered.semestr3sem.repositories.CommentRepository;
 import ru.destered.semestr3sem.services.interfaces.CommentService;
 import ru.destered.semestr3sem.services.interfaces.PostsService;
 
 import javax.servlet.http.Cookie;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +29,7 @@ import java.util.Optional;
 public class PostsController {
     private final PostsService postsService;
     private final CommentService commentService;
+    private final CommentRepository commentRepository;
 
     @Operation(
             summary = "get single post",
@@ -34,9 +37,20 @@ public class PostsController {
     )
     @PreAuthorize("permitAll()")
     @GetMapping("/posts/{id}")
-    public ResponseEntity<Post> getPosts(@PathVariable Optional<Long> id) {
-        return new ResponseEntity<>(postsService.getPosts(id
-                .orElseThrow(InternalError::new)), HttpStatus.OK);
+    public Post getPosts(@PathVariable Optional<Long> id) {
+        Post post = postsService.getPosts(id
+                .orElseThrow(InternalError::new));
+        return post;
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/posts/comments/{id}")
+    public List<Comment> getPostComments(@PathVariable Optional<Long> id) {
+        Post post = postsService.getPosts(id
+                .orElseThrow(InternalError::new));
+
+        return commentRepository.findByPost(post);
     }
 
     @Operation(

@@ -18,8 +18,8 @@ public class Comment {
     private Long id;
 
     @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="postId")
+    @ManyToOne
+    @JoinColumn(name="post_id")
     private Post post;
 
     private String text = "";

@@ -35,7 +35,7 @@
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="<@spring.message 'sign_up_page.registration.sendButton'/>">
                             </div>
                             <div id="register-link" class="text-right">
-                                <a href="/signIn" class="text-info"><@spring.message 'sign_up_page.registration.login'/></a>
+                                <a href="/login" class="text-info"><@spring.message 'sign_up_page.registration.login'/></a>
                             </div>
                         </form>
                     </div>

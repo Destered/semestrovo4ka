@@ -77,8 +77,8 @@
             <a type="button" class="btn btn-warning" v-bind:href="'/editPost?id=' + result.id">Edit</a>
         </blockquote>
     </div>
-    <ul id="messagesList">
-        <li v-for="comment in result.commentsList">
+    <ul id="messagesList" >
+        <li v-for="comment in result">
             {{ comment.text }}
         </li>
     </ul>
@@ -100,6 +100,18 @@
                     this.result = res.data;
                 }
             );
+        }
+    });
+
+    let commentsVm = new Vue({
+        el: "#messagesList",
+        data: {result: []},
+        mounted() {
+            axios.get('/posts/comments/' + getAllUrlParams().id).then(
+                res => {
+                    this.result = res.data;
+                }
+            )
         }
     });
 

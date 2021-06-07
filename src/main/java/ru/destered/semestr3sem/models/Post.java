@@ -6,9 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,7 +37,6 @@ public class Post {
     private Integer ratingCount;
 
 
-
     @JsonManagedReference
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "post_tag",
@@ -49,23 +46,23 @@ public class Post {
     private Set<Tag> tagsList = new HashSet<>();
 
     @JsonBackReference
-    @OneToMany( mappedBy = "post",
+    @OneToMany(mappedBy = "post",
             orphanRemoval = true,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+            cascade = CascadeType.ALL)
+    private Set<Comment> comments = new HashSet<>();
 
-    public void addComment(Comment comment){
+
+    public void addComment(Comment comment) {
         comments.add(comment);
     }
 
-    public void addTag(Tag tag){
+    public void addTag(Tag tag) {
         this.tagsList.add(tag);
         tag.getPosts().add(this);
     }
 
 
-    public void removeTag(Tag tag){
+    public void removeTag(Tag tag) {
         this.tagsList.remove(tag);
         tag.getPosts().remove(this);
     }
